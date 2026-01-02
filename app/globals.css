@@ -43,10 +43,142 @@ body {
   }
 }
 
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+@keyframes idle-sway {
+  0%, 100% {
+    transform: translateX(0px) translateY(0px) scale(1);
+  }
+  25% {
+    transform: translateX(1.5px) translateY(-0.5px) scale(1.01);
+  }
+  50% {
+    transform: translateX(0px) translateY(-1px) scale(1.015);
+  }
+  75% {
+    transform: translateX(-1.5px) translateY(-0.5px) scale(1.01);
+  }
+}
+
+@keyframes thinking-tilt {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(-2deg) translateY(-1px);
+  }
+  50% {
+    transform: rotate(0deg) translateY(-2px);
+  }
+  75% {
+    transform: rotate(2deg) translateY(-1px);
+  }
+}
+
+@keyframes thinking-pulse {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes speaking-bounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes warning-lean {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(2px) rotate(-1deg);
+  }
+}
+
+@keyframes listening-lean {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) translateX(0px) rotate(0deg);
+  }
+}
+
+@keyframes prepare {
+  0% {
+    transform: scale(1) translateY(0px);
+  }
+  50% {
+    transform: scale(0.98) translateY(1px);
+  }
+  100% {
+    transform: scale(1) translateY(0px);
+  }
+}
+
+@keyframes positive-happy {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.animate-idle-sway {
+  animation: idle-sway 6s ease-in-out infinite;
+}
+
+.animate-thinking-tilt {
+  animation: thinking-tilt 3s ease-in-out infinite;
+}
+
+.animate-thinking-pulse {
+  animation: thinking-pulse 2.5s ease-in-out infinite;
+}
+
+.animate-speaking-bounce {
+  animation: speaking-bounce 0.6s ease-in-out infinite;
+}
+
+.animate-warning-lean {
+  animation: warning-lean 2s ease-in-out infinite;
+}
+
+.animate-listening-lean {
+  animation: listening-lean 1.5s ease-in-out infinite;
+}
+
+.animate-prepare {
+  animation: prepare 0.4s ease-out forwards;
+}
+
+.animate-positive-happy {
+  animation: positive-happy 1.2s ease-in-out infinite;
 }

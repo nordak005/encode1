@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
@@ -43,6 +43,51 @@ export default function DashboardPage() {
 
   // AI State - Single Source of Truth
   const [aiState, setAiState] = useState<AIState>("idle");
+
+  // Derive emotional mood from analysis result
+  const emotionalMood = useMemo(() => {
+    if (!analysisResult) return null;
+    const text = analysisResult.toLowerCase();
+
+    // Negative keywords
+    const negativeKeywords = [
+      "high sugar",
+      "artificial",
+      "preservative",
+      "processed",
+      "additives",
+      "synthetic",
+    ];
+    const hasNegative = negativeKeywords.some((keyword) =>
+      text.includes(keyword)
+    );
+
+    // Positive keywords
+    const positiveKeywords = [
+      "organic",
+      "natural",
+      "whole",
+      "healthy",
+      "nutritious",
+      "fresh",
+    ];
+    const hasPositive = positiveKeywords.some((keyword) =>
+      text.includes(keyword)
+    );
+
+    if (hasNegative) return "negative";
+    if (hasPositive) return "positive";
+    return null;
+  }, [analysisResult]);
+
+  // Cursor awareness state
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isPreparing, setIsPreparing] = useState(false);
+  const [cursorTransform, setCursorTransform] = useState<React.CSSProperties>(
+    {}
+  );
+  const mouseUpdateRef = useRef<number | null>(null);
+  const mascotContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -221,6 +266,64 @@ export default function DashboardPage() {
       }
     };
   }, []);
+
+  // Lightweight mouse tracking for cursor awareness (desktop only)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Only track on desktop (not touch devices)
+    const isDesktop = window.matchMedia("(pointer: fine)").matches;
+    if (!isDesktop) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // Throttle updates using requestAnimationFrame for performance
+      if (mouseUpdateRef.current === null) {
+        mouseUpdateRef.current = requestAnimationFrame(() => {
+          setMousePosition({ x: e.clientX, y: e.clientY });
+          mouseUpdateRef.current = null;
+        });
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (mouseUpdateRef.current !== null) {
+        cancelAnimationFrame(mouseUpdateRef.current);
+      }
+    };
+  }, []);
+
+  // Calculate cursor-aware transform (only when idle)
+  useEffect(() => {
+    if (aiState !== "idle" || isPreparing || mousePosition.x === 0) {
+      setCursorTransform({});
+      return;
+    }
+
+    if (!mascotContainerRef.current) {
+      return;
+    }
+
+    const rect = mascotContainerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const deltaX = mousePosition.x - centerX;
+    const deltaY = mousePosition.y - centerY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const maxDistance = 400; // Max distance to consider
+    const influence = Math.min(1, maxDistance / Math.max(distance, 100));
+    const maxRotation = 3; // Max rotation in degrees
+    const maxLean = 2; // Max lean in pixels
+    const rotation = (deltaX / maxDistance) * maxRotation * influence;
+    const leanX = (deltaX / maxDistance) * maxLean * influence;
+    const leanY = (deltaY / maxDistance) * maxLean * influence;
+
+    setCursorTransform({
+      transform: `translate(${leanX}px, ${leanY}px) rotate(${rotation}deg)`,
+      transition: "transform 0.3s ease-out",
+    });
+  }, [mousePosition, aiState, isPreparing]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -624,6 +727,10 @@ export default function DashboardPage() {
       return;
     }
 
+    // Trigger prepare animation
+    setIsPreparing(true);
+    setTimeout(() => setIsPreparing(false), 400);
+
     // State transition: User submitted → Thinking
     setAiState("thinking");
     setAnalyzing(true);
@@ -856,18 +963,24 @@ export default function DashboardPage() {
             <div className="flex flex-col items-center justify-center relative">
               {/* Outer Glow Aura - Radial Gradient Effect */}
               <div
-                className={`absolute rounded-full blur-3xl opacity-40 transition-all duration-500 ${
-                  aiState === "idle"
-                    ? "bg-blue-400"
+                className={`absolute rounded-full blur-3xl transition-all duration-500 ${
+                  emotionalMood === "negative" && aiState === "speaking"
+                    ? "opacity-45"
+                    : emotionalMood === "positive" && aiState === "speaking"
+                    ? "opacity-55"
+                    : aiState === "idle"
+                    ? "opacity-40"
                     : aiState === "thinking"
-                    ? "bg-purple-400"
+                    ? "opacity-25 animate-thinking-pulse"
                     : aiState === "speaking"
-                    ? "bg-green-400 animate-pulse"
+                    ? "opacity-50"
                     : aiState === "listening"
-                    ? "bg-blue-400 animate-pulse"
+                    ? "opacity-40 animate-pulse"
                     : aiState === "unsure"
-                    ? "bg-yellow-400"
-                    : "bg-red-400"
+                    ? "opacity-35"
+                    : aiState === "warning"
+                    ? "opacity-40"
+                    : "opacity-40"
                 }`}
                 style={{
                   width: "400px",
@@ -876,16 +989,22 @@ export default function DashboardPage() {
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   background: `radial-gradient(circle, ${
-                    aiState === "idle"
+                    emotionalMood === "negative" && aiState === "speaking"
+                      ? "rgba(251, 146, 60, 0.5)"
+                      : emotionalMood === "positive" && aiState === "speaking"
+                      ? "rgba(34, 197, 94, 0.6)"
+                      : aiState === "idle"
                       ? "rgba(96, 165, 250, 0.4)"
                       : aiState === "thinking"
-                      ? "rgba(168, 85, 247, 0.4)"
+                      ? "rgba(168, 85, 247, 0.3)"
                       : aiState === "speaking"
-                      ? "rgba(74, 222, 128, 0.4)"
+                      ? "rgba(74, 222, 128, 0.5)"
                       : aiState === "listening"
                       ? "rgba(96, 165, 250, 0.4)"
                       : aiState === "unsure"
                       ? "rgba(250, 204, 21, 0.4)"
+                      : aiState === "warning"
+                      ? "rgba(251, 146, 60, 0.5)"
                       : "rgba(248, 113, 113, 0.4)"
                   }, transparent 70%)`,
                 }}
@@ -893,18 +1012,24 @@ export default function DashboardPage() {
 
               {/* Inner Aura Ring - Changes color based on state */}
               <div
-                className={`absolute rounded-full blur-2xl opacity-35 transition-all duration-500 ${
-                  aiState === "idle"
-                    ? "bg-blue-400"
+                className={`absolute rounded-full blur-2xl transition-all duration-500 ${
+                  emotionalMood === "negative" && aiState === "speaking"
+                    ? "opacity-40"
+                    : emotionalMood === "positive" && aiState === "speaking"
+                    ? "opacity-50"
+                    : aiState === "idle"
+                    ? "opacity-35"
                     : aiState === "thinking"
-                    ? "bg-purple-400"
+                    ? "opacity-20 animate-thinking-pulse"
                     : aiState === "speaking"
-                    ? "bg-green-400 animate-pulse"
+                    ? "opacity-45"
                     : aiState === "listening"
-                    ? "bg-blue-400 animate-pulse"
+                    ? "opacity-35 animate-pulse"
                     : aiState === "unsure"
-                    ? "bg-yellow-400"
-                    : "bg-red-400"
+                    ? "opacity-30"
+                    : aiState === "warning"
+                    ? "opacity-35"
+                    : "opacity-35"
                 }`}
                 style={{
                   width: "360px",
@@ -912,6 +1037,24 @@ export default function DashboardPage() {
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
+                  backgroundColor:
+                    emotionalMood === "negative" && aiState === "speaking"
+                      ? "rgba(251, 146, 60, 0.4)"
+                      : emotionalMood === "positive" && aiState === "speaking"
+                      ? "rgba(34, 197, 94, 0.5)"
+                      : aiState === "idle"
+                      ? "rgba(96, 165, 250, 0.35)"
+                      : aiState === "thinking"
+                      ? "rgba(168, 85, 247, 0.2)"
+                      : aiState === "speaking"
+                      ? "rgba(74, 222, 128, 0.45)"
+                      : aiState === "listening"
+                      ? "rgba(96, 165, 250, 0.35)"
+                      : aiState === "unsure"
+                      ? "rgba(250, 204, 21, 0.3)"
+                      : aiState === "warning"
+                      ? "rgba(251, 146, 60, 0.4)"
+                      : "rgba(248, 113, 113, 0.35)",
                 }}
               />
 
@@ -940,8 +1083,34 @@ export default function DashboardPage() {
               />
 
               {/* Mascot Container - Increased by ~20% (from 150% to 180%) */}
-              <div className="relative z-10 scale-[1.8]">
-                <Copilot state={aiState} className="mt-6" />
+              <div
+                className="relative z-10 scale-[1.8]"
+                ref={mascotContainerRef}
+              >
+                <div
+                  className={
+                    isPreparing
+                      ? "animate-prepare"
+                      : emotionalMood === "negative" && aiState === "speaking"
+                      ? "animate-warning-lean"
+                      : emotionalMood === "positive" && aiState === "speaking"
+                      ? "animate-positive-happy"
+                      : aiState === "listening"
+                      ? "animate-listening-lean"
+                      : aiState === "idle"
+                      ? "animate-idle-sway"
+                      : aiState === "thinking"
+                      ? "animate-thinking-tilt"
+                      : aiState === "speaking"
+                      ? "animate-speaking-bounce"
+                      : aiState === "warning"
+                      ? "animate-warning-lean"
+                      : ""
+                  }
+                  style={cursorTransform}
+                >
+                  <Copilot state={aiState} className="mt-6" />
+                </div>
               </div>
 
               {/* Status Messages */}
