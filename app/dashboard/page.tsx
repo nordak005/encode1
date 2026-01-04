@@ -957,7 +957,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Center Column: Mascot Stage */}
-          <div className="lg:col-span-6 flex flex-col items-center justify-center py-12 sm:py-16 lg:py-20 relative">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center py-12 sm:py-16 lg:py-20 relative">
             {/* Subtle Radial Gradient Background */}
             <div
               className="absolute inset-0 pointer-events-none -z-0 rounded-2xl"
@@ -1149,9 +1149,9 @@ export default function DashboardPage() {
           </div>
 
           {/* Right Column: Action Wing */}
-          <div className="lg:col-span-3 space-y-8">
+          <div className="lg:col-span-4 space-y-8">
             <div className="rounded-xl border border-solid border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.3)] backdrop-blur-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 ease-in-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:scale-[1.02]">
-              <div className="px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+              <div className="px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
                 <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
                   Ingredient Analysis
                 </h2>
@@ -1235,11 +1235,12 @@ export default function DashboardPage() {
                     )}
                     <textarea
                       id="ingredients"
-                      rows={6}
+                      rows={15}
                       value={ingredients}
                       onChange={(e) => setIngredients(e.target.value)}
                       placeholder="Enter ingredients here..."
-                      className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-[0_2px_8px_rgba(173,216,230,0.2)] ring-1 ring-inset ring-blue-200/50 placeholder:text-gray-500 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-inset focus:ring-blue-400 focus:shadow-[0_4px_16px_rgba(173,216,230,0.3)] bg-white/60 backdrop-blur-sm sm:text-sm sm:leading-6"
+                      className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-[0_2px_8px_rgba(173,216,230,0.2)] ring-1 ring-inset ring-blue-200/50 placeholder:text-gray-500 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-inset focus:ring-blue-400 focus:shadow-[0_4px_16px_rgba(173,216,230,0.3)] bg-white/60 backdrop-blur-sm sm:text-sm sm:leading-6 overflow-y-auto resize-none min-h-[300px]"
+                      style={{ maxHeight: '400px' }}
                     />
                   </div>
 
