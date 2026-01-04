@@ -10,5 +10,6 @@ export type AIState =
   | "thinking"
   | "speaking"
   | "unsure"
-  | "warning";
+  | "warning"
+  | "laugh";
 

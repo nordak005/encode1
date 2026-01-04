@@ -2,7 +2,6 @@
 
 import { AIState } from "@/types/aiState";
 import { copilotAnimations } from "@/config/copilotAnimations";
-import Image from "next/image";
 
 /**
  * Copilot Component
@@ -13,24 +12,38 @@ import Image from "next/image";
 interface CopilotProps {
   state: AIState;
   className?: string;
+  onClick?: () => void;
 }
 
-export default function Copilot({ state, className = "" }: CopilotProps) {
+export default function Copilot({ state, className = "", onClick }: CopilotProps) {
   return (
     <div className={`flex justify-center items-center ${className}`}>
-      <div className="relative">
-        <Image
+      <div className="relative cursor-pointer" onClick={onClick}>
+        <video
+          key={state} // Force re-render when state changes
           src={copilotAnimations[state]}
-          alt="AI Copilot"
           width={176}
           height={176}
           className="w-44 h-44 select-none object-contain"
-          draggable={false}
-          unoptimized // For GIF animations
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
           onError={(e) => {
-            // Fallback to static image if GIF doesn't exist
-            const target = e.target as HTMLImageElement;
-            target.src = "/character/assistant.png";
+            // Fallback to static image if WebM doesn't exist or fails to load
+            const target = e.target as HTMLVideoElement;
+            const container = target.parentElement;
+            if (container) {
+              container.innerHTML = `
+                <img
+                  src="/character/assistant.png"
+                  alt="AI Copilot"
+                  class="w-44 h-44 select-none object-contain"
+                  draggable="false"
+                />
+              `;
+            }
           }}
         />
       </div>

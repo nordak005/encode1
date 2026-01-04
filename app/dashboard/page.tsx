@@ -718,6 +718,12 @@ export default function DashboardPage() {
     }
   };
 
+  const handleCopilotClick = () => {
+    setAiState("laugh");
+    // Auto-reset to idle after 3 seconds (similar to warning state)
+    setTimeout(() => setAiState("idle"), 3000);
+  };
+
   const handleAnalyze = async () => {
     if (!ingredients.trim()) {
       setAnalysisError("Please enter ingredients to analyze");
@@ -801,17 +807,17 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-25">
+      <div className="bg-white/80 backdrop-blur-sm shadow-[0_2px_16px_rgba(0,0,0,0.04)] border-b border-blue-100/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+          <div className="flex h-20 items-center justify-between">
+            <h1 className="text-2xl font-medium text-gray-800 tracking-tight">Dashboard</h1>
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">{user?.email}</span>
               <button
                 onClick={handleLogout}
                 aria-label="Sign out of your account"
-                className="rounded-md bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 transition-all duration-200 ease-in-out hover:bg-gray-200 hover:shadow-md hover:shadow-gray-400/30 hover:ring-2 hover:ring-gray-300/30 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                className="rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 px-4 py-2.5 text-sm font-medium text-blue-700 shadow-[0_2px_8px_rgba(173,216,230,0.3)] transition-all duration-300 ease-in-out hover:from-blue-100 hover:to-blue-200 hover:shadow-[0_4px_16px_rgba(173,216,230,0.4)] hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
               >
                 Logout
               </button>
@@ -821,19 +827,19 @@ export default function DashboardPage() {
       </div>
 
       {/* Three-Column Layout */}
-      <div className="mx-auto max-w-[1920px] px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="mx-auto max-w-[1920px] px-4 py-8 sm:px-6 sm:py-12 lg:px-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16">
           {/* Left Column: Context Wing */}
           <div className="lg:col-span-3 space-y-8">
-            <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl border border-white/20 transition-all duration-300 ease-in-out hover:shadow-lg">
-              <div className="px-8 py-8 sm:px-10 sm:py-10">
+            <div className="rounded-xl border border-solid border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.3)] backdrop-blur-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 ease-in-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:scale-[1.02]">
+              <div className="px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
                 <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
                   Image Upload & Processing
                 </h2>
 
                 {error && (
-                  <div className="mb-6 rounded-md bg-red-50 p-5 transition-all duration-300 ease-in-out">
-                    <p className="text-sm text-red-800">{error}</p>
+                  <div className="mb-6 rounded-xl bg-gradient-to-r from-red-50 to-red-100 p-6 shadow-[0_4px_16px_rgba(239,68,68,0.15)] border border-red-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                    <p className="text-sm text-red-700 font-medium">{error}</p>
                   </div>
                 )}
 
@@ -851,7 +857,7 @@ export default function DashboardPage() {
                       type="file"
                       accept="image/*"
                       onChange={handleFileChange}
-                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      className="block w-full text-sm text-gray-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-blue-50 file:to-blue-100 file:text-blue-700 file:shadow-[0_2px_8px_rgba(173,216,230,0.3)] file:transition-all file:duration-300 hover:file:from-blue-100 hover:file:to-blue-200 hover:file:shadow-[0_4px_16px_rgba(173,216,230,0.4)]"
                     />
                     <p className="mt-2 text-xs text-gray-600">
                       Maximum file size: 10MB
@@ -882,7 +888,7 @@ export default function DashboardPage() {
                           ? "Processing image"
                           : "Process uploaded image"
                       }
-                      className="flex-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-blue-500 hover:shadow-md hover:shadow-blue-500/50 hover:ring-2 hover:ring-blue-400/30 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 disabled:hover:shadow-sm disabled:hover:ring-0"
+                      className="flex-1 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(59,130,246,0.3)] transition-all duration-300 ease-in-out hover:from-blue-600 hover:to-blue-700 hover:shadow-[0_6px_24px_rgba(59,130,246,0.4)] hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-500 disabled:hover:to-blue-600 disabled:hover:shadow-[0_4px_16px_rgba(59,130,246,0.3)] disabled:hover:scale-100"
                     >
                       {processing ? "Processing..." : "Process Image"}
                     </button>
@@ -891,7 +897,7 @@ export default function DashboardPage() {
                         onClick={handleReset}
                         disabled={processing}
                         aria-label="Reset image selection"
-                        className="rounded-md bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 ease-in-out hover:bg-gray-200 hover:shadow-md hover:shadow-gray-400/30 hover:ring-2 hover:ring-gray-300/30 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:ring-0"
+                        className="rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 ease-in-out hover:from-gray-100 hover:to-gray-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-gray-50 disabled:hover:to-gray-100 disabled:hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] disabled:hover:scale-100"
                       >
                         Reset
                       </button>
@@ -899,8 +905,8 @@ export default function DashboardPage() {
                   </div>
 
                   {result && (
-                    <div className="mt-8 rounded-lg bg-green-50 p-6 transition-all duration-300 ease-in-out">
-                      <h3 className="text-sm font-normal text-green-900 mb-4">
+                    <div className="mt-8 rounded-xl bg-gradient-to-r from-green-50 to-green-100 p-6 shadow-[0_4px_16px_rgba(34,197,94,0.15)] border border-green-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                      <h3 className="text-sm font-medium text-green-800 mb-4">
                         Processing Results
                       </h3>
                       <div className="space-y-3">
@@ -938,8 +944,8 @@ export default function DashboardPage() {
             </div>
 
             {/* History Placeholder */}
-            <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl border border-white/20 transition-all duration-300 ease-in-out hover:shadow-lg">
-              <div className="px-8 py-8 sm:px-10 sm:py-10">
+            <div className="rounded-xl border border-solid border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.3)] backdrop-blur-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 ease-in-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:scale-[1.02]">
+              <div className="px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
                 <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
                   History
                 </h2>
@@ -951,13 +957,13 @@ export default function DashboardPage() {
           </div>
 
           {/* Center Column: Mascot Stage */}
-          <div className="lg:col-span-6 flex flex-col items-center justify-center py-16 relative">
+          <div className="lg:col-span-6 flex flex-col items-center justify-center py-12 sm:py-16 lg:py-20 relative">
             {/* Subtle Radial Gradient Background */}
             <div
-              className="absolute inset-0 pointer-events-none -z-0"
+              className="absolute inset-0 pointer-events-none -z-0 rounded-2xl"
               style={{
                 background:
-                  "radial-gradient(circle at center, rgba(191, 219, 254, 0.12) 0%, rgba(199, 210, 254, 0.06) 40%, transparent 70%)",
+                  "radial-gradient(circle at center, rgba(173, 216, 230, 0.08) 0%, rgba(173, 216, 230, 0.04) 40%, transparent 70%)",
               }}
             />
             <div className="flex flex-col items-center justify-center relative">
@@ -1082,9 +1088,9 @@ export default function DashboardPage() {
                 }}
               />
 
-              {/* Mascot Container - Increased by ~20% (from 150% to 180%) */}
+              {/* Mascot Container - Responsive scaling */}
               <div
-                className="relative z-10 scale-[1.8]"
+                className="relative z-10 scale-[1.2] sm:scale-[1.4] lg:scale-[1.8]"
                 ref={mascotContainerRef}
               >
                 <div
@@ -1109,7 +1115,7 @@ export default function DashboardPage() {
                   }
                   style={cursorTransform}
                 >
-                  <Copilot state={aiState} className="mt-6" />
+                  <Copilot state={aiState} className="mt-6" onClick={handleCopilotClick} />
                 </div>
               </div>
 
@@ -1144,15 +1150,15 @@ export default function DashboardPage() {
 
           {/* Right Column: Action Wing */}
           <div className="lg:col-span-3 space-y-8">
-            <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl border border-white/20 transition-all duration-300 ease-in-out hover:shadow-lg">
-              <div className="px-8 py-8 sm:px-10 sm:py-10">
+            <div className="rounded-xl border border-solid border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.3)] backdrop-blur-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 ease-in-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:scale-[1.02]">
+              <div className="px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
                 <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
                   Ingredient Analysis
                 </h2>
 
                 {analysisError && (
-                  <div className="mb-6 rounded-md bg-red-50 p-5 transition-all duration-300 ease-in-out">
-                    <p className="text-sm text-red-800">{analysisError}</p>
+                  <div className="mb-6 rounded-xl bg-gradient-to-r from-red-50 to-red-100 p-6 shadow-[0_4px_16px_rgba(239,68,68,0.15)] border border-red-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                    <p className="text-sm text-red-700 font-medium">{analysisError}</p>
                   </div>
                 )}
 
@@ -1180,10 +1186,10 @@ export default function DashboardPage() {
                                 : "Start voice recording"
                             }
                             aria-pressed={listening}
-                            className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-300 ease-in-out ${
+                            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 ease-in-out ${
                               listening
-                                ? "bg-red-100 text-red-700 hover:bg-red-200 hover:shadow-md hover:shadow-red-400/40 hover:ring-2 hover:ring-red-300/40 active:scale-95 animate-[pulse_2s_ease-in-out_infinite]"
-                                : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md hover:shadow-gray-400/30 hover:ring-2 hover:ring-gray-300/30 active:scale-95"
+                                ? "bg-gradient-to-r from-red-50 to-red-100 text-red-700 hover:from-red-100 hover:to-red-200 hover:shadow-[0_4px_16px_rgba(239,68,68,0.2)] hover:ring-2 hover:ring-red-300/40 active:scale-95 animate-[pulse_2s_ease-in-out_infinite]"
+                                : "bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 hover:from-gray-100 hover:to-gray-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:ring-2 hover:ring-gray-300/40 active:scale-95"
                             }`}
                           >
                             <span className={listening ? "animate-pulse" : ""}>
@@ -1192,10 +1198,10 @@ export default function DashboardPage() {
                             {listening ? "Stop" : "Record"}
                           </button>
                           {micError && (
-                            <div className="rounded-md bg-red-50 border border-red-200 p-2 animate-slide-in">
-                              <div className="flex items-start gap-2">
+                            <div className="rounded-lg bg-gradient-to-r from-red-50 to-red-100 border border-red-200/50 p-3 shadow-[0_2px_8px_rgba(239,68,68,0.15)] backdrop-blur-sm animate-slide-in">
+                              <div className="flex items-start gap-3">
                                 <svg
-                                  className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0"
+                                  className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
@@ -1233,7 +1239,7 @@ export default function DashboardPage() {
                       value={ingredients}
                       onChange={(e) => setIngredients(e.target.value)}
                       placeholder="Enter ingredients here..."
-                      className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 transition-all duration-200 ease-in-out focus:ring-2 focus:ring-inset focus:ring-blue-600 focus:shadow-md sm:text-sm sm:leading-6"
+                      className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-[0_2px_8px_rgba(173,216,230,0.2)] ring-1 ring-inset ring-blue-200/50 placeholder:text-gray-500 transition-all duration-300 ease-in-out focus:ring-2 focus:ring-inset focus:ring-blue-400 focus:shadow-[0_4px_16px_rgba(173,216,230,0.3)] bg-white/60 backdrop-blur-sm sm:text-sm sm:leading-6"
                     />
                   </div>
 
@@ -1245,7 +1251,7 @@ export default function DashboardPage() {
                         ? "Analyzing ingredients"
                         : "Analyze ingredients"
                     }
-                    className={`w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-blue-500 hover:shadow-md hover:shadow-blue-500/50 hover:ring-2 hover:ring-blue-400/30 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 disabled:hover:shadow-sm disabled:hover:ring-0 ${
+                    className={`w-full rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(59,130,246,0.3)] transition-all duration-300 ease-in-out hover:from-blue-600 hover:to-blue-700 hover:shadow-[0_6px_24px_rgba(59,130,246,0.4)] hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-500 disabled:hover:to-blue-600 disabled:hover:shadow-[0_4px_16px_rgba(59,130,246,0.3)] disabled:hover:scale-100 ${
                       analyzing ? "animate-[pulse_2s_ease-in-out_infinite]" : ""
                     }`}
                   >
@@ -1279,13 +1285,13 @@ export default function DashboardPage() {
                   </button>
 
                   {speaking && (
-                    <div className="mt-6 rounded-md bg-purple-50 p-4">
+                    <div className="mt-6 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100 p-5 shadow-[0_4px_16px_rgba(147,51,234,0.15)] border border-purple-200/50 backdrop-blur-sm">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-500">Speaking...</p>
+                        <p className="text-sm text-purple-700 font-medium">Speaking...</p>
                         <button
                           onClick={handleStopSpeaking}
                           aria-label="Stop speech playback"
-                          className="rounded-md bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 transition-all duration-200 ease-in-out hover:bg-red-200 hover:shadow-md hover:shadow-red-400/40 hover:ring-2 hover:ring-red-300/40 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                          className="rounded-lg bg-gradient-to-r from-red-50 to-red-100 px-4 py-2 text-sm font-medium text-red-700 shadow-[0_2px_8px_rgba(239,68,68,0.2)] transition-all duration-300 ease-in-out hover:from-red-100 hover:to-red-200 hover:shadow-[0_4px_16px_rgba(239,68,68,0.3)] hover:ring-2 hover:ring-red-300/40 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
                         >
                           Stop
                         </button>
@@ -1294,8 +1300,8 @@ export default function DashboardPage() {
                   )}
 
                   {analysisResult && (
-                    <div className="mt-8 rounded-lg bg-blue-50 p-6 transition-all duration-300 ease-in-out">
-                      <h3 className="text-sm font-normal text-blue-900 mb-4">
+                    <div className="mt-8 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 p-6 shadow-[0_4px_16px_rgba(59,130,246,0.15)] border border-blue-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                      <h3 className="text-sm font-medium text-blue-800 mb-4">
                         Analysis Result
                       </h3>
                       <div className="text-sm text-blue-800 whitespace-pre-wrap">
