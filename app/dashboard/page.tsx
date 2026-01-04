@@ -834,22 +834,22 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
 
             {/* Left Column: Image Upload Box */}
-            <div className="rounded-2xl border border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.25)] backdrop-blur-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01] p-6 lg:p-8">
-              <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
+            <div className="rounded-2xl border border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.25)] backdrop-blur-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01] p-4 lg:p-6">
+              <h2 className="text-lg font-light leading-7 text-gray-900 mb-4">
                 Image Upload
               </h2>
 
               {error && (
-                <div className="mb-6 rounded-xl bg-gradient-to-r from-red-50 to-red-100 p-5 shadow-[0_4px_16px_rgba(239,68,68,0.15)] border border-red-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                <div className="mb-4 rounded-xl bg-gradient-to-r from-red-50 to-red-100 p-3 shadow-[0_4px_16px_rgba(239,68,68,0.15)] border border-red-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
                   <p className="text-sm text-red-700 font-medium">{error}</p>
                 </div>
               )}
 
-              <div className="space-y-5">
+              <div className="space-y-3">
                 <div>
                   <label
                     htmlFor="image-upload"
-                    className="block text-sm font-normal text-gray-700 mb-3"
+                    className="block text-sm font-normal text-gray-700 mb-2"
                   >
                     Select an image
                   </label>
@@ -867,15 +867,15 @@ export default function DashboardPage() {
                 </div>
 
                 {preview && (
-                  <div className="mt-6 transition-all duration-300 ease-in-out">
-                    <h3 className="text-sm font-normal text-gray-700 mb-3">
+                  <div className="mt-4 transition-all duration-300 ease-in-out">
+                    <h3 className="text-sm font-normal text-gray-700 mb-2">
                       Preview
                     </h3>
                     <div className="relative inline-block">
                       <img
                         src={preview}
                         alt="Preview"
-                        className="max-h-48 rounded-lg border border-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg"
+                        className="max-h-32 rounded-lg border border-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg"
                       />
                     </div>
                   </div>
@@ -907,8 +907,8 @@ export default function DashboardPage() {
                 </div>
 
                 {result && (
-                  <div className="mt-8 rounded-xl bg-gradient-to-r from-green-50 to-green-100 p-5 shadow-[0_4px_16px_rgba(34,197,94,0.15)] border border-green-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
-                    <h3 className="text-sm font-medium text-green-800 mb-4">
+                  <div className="mt-6 rounded-xl bg-gradient-to-r from-green-50 to-green-100 p-3 shadow-[0_4px_16px_rgba(34,197,94,0.15)] border border-green-200/50 backdrop-blur-sm transition-all duration-300 ease-in-out">
+                    <h3 className="text-sm font-medium text-green-800 mb-3">
                       Processing Results
                     </h3>
                     <div className="space-y-3">
@@ -945,11 +945,11 @@ export default function DashboardPage() {
             </div>
 
             {/* Right Column: History Box */}
-            <div className="rounded-2xl border border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.25)] backdrop-blur-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01] p-6 lg:p-8">
-              <h2 className="text-xl font-light leading-7 text-gray-900 mb-6">
+            <div className="rounded-2xl border border-[rgba(173,216,230,0.4)] bg-[rgba(173,216,230,0.25)] backdrop-blur-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:bg-[rgba(173,216,230,0.35)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01] p-4 lg:p-6">
+              <h2 className="text-lg font-light leading-7 text-gray-900 mb-4">
                 History
               </h2>
-              <div className="space-y-4 max-h-80 overflow-y-auto">
+              <div className="space-y-3 max-h-60 overflow-y-auto">
                 <p className="text-sm text-gray-600">
                   Past interactions and results will appear here...
                 </p>
