@@ -134,6 +134,10 @@ encode/
 4. **Upload Image**: Select an image file (max 10MB) and click "Process Image"
 5. **View Results**: See the processing results displayed on the dashboard
 
+
+<img width="1333" height="632" alt="image" src="https://github.com/user-attachments/assets/b5b65994-39ec-408c-a55d-525cd8f2d51b" />
+
+
 ## Development
 
 ### Build for Production
@@ -171,7 +175,6 @@ npm start
 - [Supabase Auth Guide](https://supabase.com/docs/guides/auth)
 
 ## License
-<img width="1333" height="632" alt="image" src="https://github.com/user-attachments/assets/b5b65994-39ec-408c-a55d-525cd8f2d51b" />
 
 
 MIT
