@@ -50,6 +50,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 2. Click on **Settings** (gear icon) → **API**
 3. Copy the **Project URL** and paste it as `NEXT_PUBLIC_SUPABASE_URL`
 4. Copy the **anon/public** key and paste it as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+5. <img width="643" height="622" alt="image" src="https://github.com/user-attachments/assets/7f807093-02a9-4410-9073-23b9a2c9102a" />
+<img width="1344" height="641" alt="image" src="https://github.com/user-attachments/assets/836f6302-ef6c-4a4d-a2d1-51051e6b0165" />
+
+
 
 ### 4. Run Development Server
 
@@ -58,6 +62,9 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+<img width="1125" height="595" alt="image" src="https://github.com/user-attachments/assets/1c97d040-990e-4c17-9717-b48a74ebdf02" />
+
+
 
 ## Project Structure
 
@@ -98,6 +105,8 @@ encode/
 - `POST /api/process-image` - Process uploaded image (requires authentication)
   - Body: `FormData` with `image` field
   - Returns: `{ "labels": ["cat", "animal"], "confidence": 0.92, ... }`
+  - <img width="1333" height="645" alt="image" src="https://github.com/user-attachments/assets/19658ab2-d2c5-43f3-8516-f65af9ea86a7" />
+
 
 ## Authentication Flow
 
@@ -153,5 +162,7 @@ npm start
 - [Supabase Auth Guide](https://supabase.com/docs/guides/auth)
 
 ## License
+<img width="1333" height="632" alt="image" src="https://github.com/user-attachments/assets/b5b65994-39ec-408c-a55d-525cd8f2d51b" />
+
 
 MIT
