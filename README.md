@@ -43,14 +43,13 @@ Create a `.env.local` file in the root directory:
 NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 ```
-
+ <img width="643" height="622" alt="image" src="https://github.com/user-attachments/assets/7f807093-02a9-4410-9073-23b9a2c9102a" />
 **How to get your Supabase credentials:**
 
 1. Go to your Supabase project dashboard
 2. Click on **Settings** (gear icon) → **API**
 3. Copy the **Project URL** and paste it as `NEXT_PUBLIC_SUPABASE_URL`
 4. Copy the **anon/public** key and paste it as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-5. <img width="643" height="622" alt="image" src="https://github.com/user-attachments/assets/7f807093-02a9-4410-9073-23b9a2c9102a" />
 <img width="1344" height="641" alt="image" src="https://github.com/user-attachments/assets/836f6302-ef6c-4a4d-a2d1-51051e6b0165" />
 
 
@@ -91,6 +90,9 @@ encode/
 ├── middleware.ts                    # Route protection middleware
 └── package.json
 ```
+
+<img width="800" height="533" alt="image" src="https://github.com/user-attachments/assets/e6f52cdf-d233-40fa-a24f-bbe46d77a763" />
+
 
 ## API Endpoints
 
@@ -154,6 +156,13 @@ npm start
 - Protected routes are enforced via middleware
 - File uploads are validated for type and size
 - CORS and security headers should be configured for production
+
+##blender
+<img width="617" height="383" alt="image" src="https://github.com/user-attachments/assets/61672ecf-5a03-430e-ab4a-7a99d5d680b4" />
+
+-Used blender and also learned how to do 3-d modeling using it
+<img width="198" height="309" alt="image" src="https://github.com/user-attachments/assets/c1453c9a-98a7-44f5-8006-ba4b054d16b8" />
+
 
 ## Additional Resources
 
